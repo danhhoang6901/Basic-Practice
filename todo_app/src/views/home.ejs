@@ -1,0 +1,55 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link href="/bootstrap-5.0.2-dist/css/bootstrap.min.css" rel="stylesheet" />
+
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <nav class="navbar nav-tabs navbar-expand-lg navbar-light bg-light">
+                    <div class="container-fluid">
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link " href="/todo/list">Todo</a>
+                                </li>
+                            </ul>
+                            <% if(cookies && cookies.jwt) { %>
+                                <form class="d-flex" action="/user/logout" method="post">
+                                    <button class="btn btn-danger" type="submit">Logout</button>
+                                </form>
+                                <% } else { %>
+                                    <a href="/user/login" class="btn btn-primary">Login</a>
+                                    <% } %>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col text-center">
+                <% if(cookies && cookies.jwt) { %>
+                    <h1>Welcome <%=nameUser%>
+                    </h1>
+                    <% } else { %>
+                        <h1>Welcome
+                        </h1>
+                        <% } %>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
+
+</html>

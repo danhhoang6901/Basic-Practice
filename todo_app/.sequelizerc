@@ -1,0 +1,8 @@
+const path = require('path');
+
+module.exports = {
+    'config': path.resolve('./src/config', 'config.json'), //tao connection den database
+    'migrations-path': path.resolve('./src', 'migrations'), //tao table
+    'models-path': path.resolve('./src', 'models'), //tao model
+    'seeders-path': path.resolve('./src', 'seeders') //tao data fake
+}
