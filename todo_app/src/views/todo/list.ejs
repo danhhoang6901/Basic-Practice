@@ -37,12 +37,32 @@
                 <h1>List Todo</h1>
                 <a class="btn btn-primary" href="/todo/create">Create Todo</a>
             </div>
-            <div class="col-8"></div>
-            <div class="col-4">
+            <div class="col-7"></div>
+            <div class="col">
                 <form action="/todo/list">
-                    <div class="input-group">
-                        <input value="<%=search%>" placeholder="Search..." class="form-control" name="search" />
-                        <button class="btn btn-success">Search</button>
+                    <div class="row">
+                        <div class="col-4">
+                            <select class="form-select" name="statusId">
+                                <option value="" selected>All</option>
+                                <% listStatuses.forEach(function(status) { %>
+                                    <% if(status.id===+statusId) { %>
+                                        <option selected value="<%=status.id%>">
+                                            <%=status.nameStatus%>
+                                        </option>
+                                        <% } else { %>
+                                            <option value="<%=status.id%>">
+                                                <%=status.nameStatus%>
+                                            </option>
+                                            <% } %>
+                                                <% }) %>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <div class="input-group">
+                                <input value="<%=title%>" placeholder="Search..." class="form-control" name="title" />
+                                <button class="btn btn-success">Search</button>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>

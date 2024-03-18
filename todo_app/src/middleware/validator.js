@@ -1,5 +1,4 @@
 const { check } = require('express-validator');
-const db = require('../models/index');
 const {
     getAllUsers,
     getUserWithEmail,
@@ -38,8 +37,19 @@ const validateResetPassword = () => {
     return [
         check("newPassword", "* New password is required").trim().notEmpty(),
         check("confirmNewPassword", "*Confirm new password is required").trim().notEmpty(),
-        check("confirmNewPassword").custom(checkConfirmPasswordNotMatch)
+        check("confirmNewPassword").custom(checkConfirmNewPasswordNotMatch)
     ];
+};
+
+const checkConfirmNewPasswordNotMatch = async (confirmNewPassword, newPassword) => {
+    let inputConfirmNewPassword = confirmNewPassword;
+    let inputNewPasssword = newPassword.req.body.newPassword;
+
+    if (inputConfirmNewPassword !== inputNewPasssword) {
+        throw new Error('* Confirm new password not match!');
+    };
+
+    return true;
 };
 
 const checkConfirmPasswordNotMatch = async (confirmPassword, password) => {
@@ -48,7 +58,6 @@ const checkConfirmPasswordNotMatch = async (confirmPassword, password) => {
 
     if (inputConfirmPassword !== inputPasswordUser) {
         throw new Error('* Confirm password not match!');
-
     };
 
     return true;

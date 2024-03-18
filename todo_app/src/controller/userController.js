@@ -6,7 +6,8 @@ const {
     sendOTP,
     generateOTP,
     updateUserWithEmail,
-    getUserWithEmail
+    getUserWithEmail,
+    updateUserPasswordWithEmail
 } = require('../service/userService');
 const { createJWT } = require('../middleware/JWTAction');
 const { validationResult } = require('express-validator');
@@ -130,7 +131,13 @@ const logout = (req, res) => {
 };
 
 const getCheckEmailPage = (req, res) => {
-    return res.render('user/forgotPassword.ejs', { errors: '', email: '' });
+    let cookies = req.cookies;
+
+    if (cookies && cookies.jwt) {
+        return res.redirect('/todo/list');
+    };
+
+    return res.render('user/checkYourEmail.ejs', { errors: '', email: '' });
 };
 
 const checkEmail = async (req, res) => {
@@ -139,7 +146,7 @@ const checkEmail = async (req, res) => {
     let errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        return res.render('user/forgotPassword.ejs', { errors: errors.mapped(), email });
+        return res.render('user/checkYourEmail.ejs', { errors: errors.mapped(), email });
     };
 
     if (user) {

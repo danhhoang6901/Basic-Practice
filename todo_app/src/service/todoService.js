@@ -30,7 +30,7 @@ const getAllTodo = async () => {
     };
 };
 
-const getAllTodoWithPaginationAndSearch = async (page, limit, search) => {
+const getAllTodoWithPaginationAndSearch = async (page, limit, title, statusId) => {
     let offset = (page - 1) * limit; //vi tri bat dau truy xuat
     let { count, rows } = await db.todo.findAndCountAll({
         offset: offset,
@@ -53,14 +53,12 @@ const getAllTodoWithPaginationAndSearch = async (page, limit, search) => {
             ]
         }],
         where: {
-            [Op.or]: [{
+            [Op.and]: [{
                 title: {
-                    [Op.like]: '%' + search + '%'
+                    [Op.like]: '%' + title + '%'
                 },
             }, {
-                statusId: {
-
-                }
+                statusId: statusId
             }]
         },
         raw: true,

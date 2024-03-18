@@ -14,23 +14,29 @@ const { getUserWithEmail } = require('../service/userService');
 const moment = require('moment');
 
 const getAllTodoPage = async (req, res) => {
-    let search = req.query.search;
+    let title = req.query.title;
+    let statusId = req.query.statusId;
     let listTodos;
     let listStatuses = await getAllStatuses();
 
-    if (search == undefined) {
-        search = '';
+    if (title === undefined) {
+        title = '';
     };
+
+    if (statusId === undefined) {
+        statusId = '';
+    }
 
     try {
         if (req.query.page && req.query.limit) {
             let page = +req.query.page;
             let limit = +req.query.limit;
-            listTodos = await getAllTodoWithPaginationAndSearch(page, limit, search.trim());
+            listTodos = await getAllTodoWithPaginationAndSearch(page, limit, title.trim(), statusId);
 
             return res.render('todo/list.ejs', {
                 listTodos: listTodos.todos,
-                search,
+                title,
+                statusId,
                 totalPages: listTodos.totalPages,
                 limit: limit,
                 page: page,
@@ -38,11 +44,12 @@ const getAllTodoPage = async (req, res) => {
                 listStatuses
             });
         };
-        listTodos = await getAllTodoWithPaginationAndSearch(1, 2, search.trim());
+        listTodos = await getAllTodoWithPaginationAndSearch(1, 2, title.trim(), statusId);
 
         return res.render('todo/list.ejs', {
             listTodos: listTodos.todos,
-            search,
+            title,
+            statusId,
             totalPages: listTodos.totalPages,
             limit: 2,
             page: 1,

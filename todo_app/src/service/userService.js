@@ -125,8 +125,9 @@ const getUserWithPhoneNumber = async (phoneNumber) => {
 
 const updateUserPasswordWithEmail = async (email, newPassword) => {
     try {
+        let hashNewPassword = await hashPasswordFromBcrypt(newPassword);
         await db.user.update({
-            password: newPassword
+            password: hashNewPassword
         }, {
             where: {
                 email: email

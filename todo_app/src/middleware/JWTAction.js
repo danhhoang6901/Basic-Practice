@@ -55,6 +55,7 @@ const checkUserJWT = (req, res, next) => {
     if (cookies && cookies.jwt) {
         let token = cookies.jwt;
         let decoded = verifyToken(token);
+
         if (decoded) {
             req.user = decoded;
             next();
